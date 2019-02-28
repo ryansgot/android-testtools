@@ -1,0 +1,21 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'fs-gradle-publishing'
+
+group = 'com.fsryan.tools.jvm'
+version = '0.0.1'
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    compileOnly deps.google.jsr305
+}
+
+fsPublishingConfig {
+    siteUrl ''
+    baseArtifactId project.name
+    groupId project.group
+    versionName project.version
+}

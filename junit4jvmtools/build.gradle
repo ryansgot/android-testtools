@@ -1,0 +1,26 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
+apply plugin: 'fs-gradle-publishing'
+
+group = 'com.fsryan.tools.jvm'
+version = '0.0.1'
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.stdlib
+    implementation deps.junit
+
+    implementation project(':jvmtesttools')
+}
+
+fsPublishingConfig {
+    siteUrl ''
+    baseArtifactId project.name
+    groupId project.group
+    versionName project.version
+    description "Basic tools for working with JUnit4 on the JVM"
+}

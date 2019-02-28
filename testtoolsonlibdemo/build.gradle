@@ -1,0 +1,96 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion versions.android.compileSdk
+
+    defaultConfig {
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
+
+        // This test instrumentation runner allows libraries of any significant
+        // complexity to be tested on the DVM. The underlying issue is the
+        testInstrumentationRunner "com.fsryan.tools.dvm.MultiDexInstrumentationRunner"
+
+        // TODO: put this in a plugin
+        // I'll be looking to make a gradle plugin for this. This sets up the
+        // test filtering so that only the "uncategorized" tests will run.
+        testInstrumentationRunnerArguments = [
+                'filter': 'com.fsryan.tools.dvm.junit4.FSAndroidTestFilter',
+                'fs_integration': 'false',
+                'fs_long_running': 'false',
+                'fs_uncategorized': 'true'
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            multiDexEnabled true
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.stdlib
+
+    androidTestImplementation project(':andtesttools')
+    androidTestImplementation project(':espressotools')
+    androidTestImplementation project(':junit4androidtools')
+
+    androidTestImplementation deps.android.support.test.runner
+    androidTestImplementation deps.android.support.test.rules
+    androidTestImplementation deps.android.support.test.espresso.core
+    androidTestImplementation deps.android.support.test.espresso.contrib
+}
+
+// TODO: put this in a plugin
+def requestedTasks() {
+    return project.gradle.startParameter.taskRequests.collect { it.args }.flatten()
+}
+
+// TODO: put this in a plugin
+def wasRequestedTask(String prefix) {
+    return requestedTasks().find { requested ->
+        requested == "${project.path}:${prefix}" || requested == prefix
+    } != null
+}
+
+// TODO: put this in a plugin
+android.libraryVariants.all { v ->
+    def connectedTestTask = project.tasks.findByName("connected${v.name.capitalize()}AndroidTest")
+    if (connectedTestTask != null) {
+        def longRunningTask = project.task("fsLongRunning${v.name.capitalize()}AndroidTest")
+        longRunningTask.dependsOn(connectedTestTask)
+        longRunningTask.group = 'verification'
+        longRunningTask.description = "Run the long running tests for variant ${v.name}"
+
+        def integrationTestTask = project.task("fsIntegration${v.name.capitalize()}AndroidTest")
+        integrationTestTask.dependsOn(connectedTestTask)
+        integrationTestTask.group = 'verification'
+        integrationTestTask.description = "Run the integration tests for variant ${v.name}"
+
+        def unfilteredTask = project.task("fsUnfiltered${v.name.capitalize()}AndroidTest")
+        unfilteredTask.dependsOn(connectedTestTask)
+        unfilteredTask.group = 'verification'
+        unfilteredTask.description = "Run all connected android tests for variant ${v.name}"
+
+        def unfiltered = wasRequestedTask(unfilteredTask.name)
+        def longRunning = wasRequestedTask(longRunningTask.name)
+        def integration = wasRequestedTask(integrationTestTask.name)
+        if (unfiltered || longRunning || integration) {
+            v.mergedFlavor.testInstrumentationRunnerArguments = [
+                    'filter': 'com.fsryan.tools.dvm.junit4.FSAndroidTestFilter',
+                    'fs_integration': String.valueOf(unfiltered || integration),
+                    'fs_long_running': String.valueOf(unfiltered || longRunning),
+                    'fs_uncategorized': String.valueOf(unfiltered || (!longRunning && !integration)),
+            ]
+        }
+    }
+}

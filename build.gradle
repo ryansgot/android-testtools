@@ -1,0 +1,126 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.versions = [
+            'plugins': [
+                    'android': '3.3.0',
+                    'androidMavenGradle': '2.1',
+                    'bpGradlePublishing': '0.1.0'
+            ],
+            'android': [
+                    'compileSdk': 28,
+                    'targetSdk': 28,
+                    'minSdk': 17,
+                    'support': [
+                            'lib': '28.0.0',
+                            'multidex': '1.0.2'
+                    ],
+                    'arch': [
+                            'room': '1.1.1',
+                            'components': '1.0.0'
+                    ],
+                    'test': [
+                            'support': [
+                                    'lib': '1.0.2',
+                                    'espresso': '3.0.2'
+                            ]
+                    ]
+            ],
+            'google': [
+                    'jsr305': '3.0.2'
+            ],
+            'kotlin': '1.3.11',
+            'junit': '4.12',
+    ]
+    ext.deps = [
+            'plugins': [
+                    'android': "com.android.tools.build:gradle:${versions.plugins.android}",
+                    'androidMavenGradle': "com.github.dcendents:android-maven-gradle-plugin:${versions.plugins.androidMavenGradle}",
+                    'bpGradlePublishing': "com.fsryan.gradle:bp-gradle-publishing:${versions.plugins.bpGradlePublishing}",
+                    'kotlin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+            ],
+            'kotlin': [
+                    'stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+            ],
+            'google': [
+                    'jsr305': "com.google.code.findbugs:jsr305:${versions.google.jsr305}"
+            ],
+            'junit': "junit:junit:${versions.junit}",
+            'android': [
+                    'arch': [
+                            'lifecycle': [
+                                    'extensions': "android.arch.lifecycle:extensions:${versions.android.arch.components}"
+                            ],
+                            'testing': [
+                                    'core': "android.arch.core:core-testing:${versions.android.arch.components}"
+                            ]
+                    ],
+                    'support': [
+                            'multidex': "com.android.support:multidex:${versions.android.support.multidex}",
+                            'annotations': "com.android.support:support-annotations:${versions.android.support.lib}",
+                            'test':[
+                                    'monitor': "com.android.support.test:monitor:${versions.android.test.support.lib}",
+                                    'runner': "com.android.support.test:runner:${versions.android.test.support.lib}",
+                                    'rules': "com.android.support.test:rules:${versions.android.test.support.lib}",
+                                    'espresso': [
+                                            'core': "com.android.support.test.espresso:espresso-core:${versions.android.test.support.espresso}",
+                                            'contrib': "com.android.support.test.espresso:espresso-contrib:${versions.android.test.support.espresso}"
+                                    ]
+                            ]
+                    ]
+            ]
+    ]
+    repositories {
+        google()
+        jcenter()
+        // for release
+        maven {
+            url "https://bpm.jfrog.io/bpm/bp_release"
+            credentials {
+                username project.hasProperty('jfrogUser') ? project.property('jfrogUser') : "${System.env.JFROG_USER}"
+                password project.hasProperty('jfrogPass') ? project.property('jfrogPass') : "${System.env.JFROG_PASS}"
+            }
+        }
+        // for snapshots
+        maven {
+            url "https://bpm.jfrog.io/bpm/bp_snapshot"
+            credentials {
+                username project.hasProperty('jfrogUser') ? project.property('jfrogUser') : "${System.env.JFROG_USER}"
+                password project.hasProperty('jfrogPass') ? project.property('jfrogPass') : "${System.env.JFROG_PASS}"
+            }
+        }
+    }
+    dependencies {
+        classpath deps.plugins.android
+        classpath deps.plugins.kotlin
+        classpath deps.plugins.androidMavenGradle
+        classpath deps.plugins.bpGradlePublishing
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        // for release
+        maven {
+            url "https://bpm.jfrog.io/bpm/bp_release"
+            credentials {
+                username project.hasProperty('jfrogUser') ? project.property('jfrogUser') : "${System.env.JFROG_USER}"
+                password project.hasProperty('jfrogPass') ? project.property('jfrogPass') : "${System.env.JFROG_PASS}"
+            }
+        }
+        // for snapshots
+        maven {
+            url "https://bpm.jfrog.io/bpm/bp_snapshot"
+            credentials {
+                username project.hasProperty('jfrogUser') ? project.property('jfrogUser') : "${System.env.JFROG_USER}"
+                password project.hasProperty('jfrogPass') ? project.property('jfrogPass') : "${System.env.JFROG_PASS}"
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

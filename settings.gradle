@@ -1,0 +1,3 @@
+include ':testtoolsonlibdemo', ':andtesttools', ':junit4androidtools', ':espressotools', ':jvmtools', ':junit4jvmtools'
+
+project(':jvmtools').name = 'jvmtesttools'

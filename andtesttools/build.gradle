@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
+apply plugin: 'fs-gradle-publishing'
+
+group = 'com.fsryan.tools'
+version = '0.0.1'
+
+android {
+    compileSdkVersion versions.android.compileSdk
+
+    defaultConfig {
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.stdlib
+
+    implementation deps.android.support.annotations
+    implementation deps.android.support.multidex
+    compileOnly deps.android.arch.lifecycle.extensions
+
+    implementation deps.android.arch.testing.core
+    implementation(deps.android.support.test.runner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+}
+
+fsPublishingConfig {
+    siteUrl ''
+    baseArtifactId project.name
+    groupId project.group
+    versionName project.version
+}

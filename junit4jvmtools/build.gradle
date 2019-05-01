@@ -1,7 +1,7 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
-apply plugin: 'fs-gradle-publishing'
+apply plugin: 'fsryan-gradle-publishing'
 
 group = 'com.fsryan.tools.jvm'
 version = '0.0.1'
@@ -17,10 +17,4 @@ dependencies {
     implementation project(':jvmtesttools')
 }
 
-fsPublishingConfig {
-    siteUrl ''
-    baseArtifactId project.name
-    groupId project.group
-    versionName project.version
-    description "Basic tools for working with JUnit4 on the JVM"
-}
+rootProject.configureFSPublishing(project, 'Testing tools for the JVM building on top of JUnit4')

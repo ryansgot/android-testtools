@@ -4,7 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 apply plugin: 'fsryan-gradle-publishing'
 
-group = 'com.fsryan.tools'
+group = 'com.fsryan.testtools.android'
 version = '0.0.1'
 
 android {

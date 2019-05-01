@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
-apply plugin: 'fs-gradle-publishing'
+apply plugin: 'fsryan-gradle-publishing'
 
 group = 'com.fsryan.tools'
 version = '0.0.1'
@@ -42,9 +42,4 @@ dependencies {
     api project(':junit4jvmtools')
 }
 
-fsPublishingConfig {
-    siteUrl ''
-    baseArtifactId project.name
-    groupId project.group
-    versionName project.version
-}
+rootProject.configureFSPublishing(project, 'JUnit4 tools for android')

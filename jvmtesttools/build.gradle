@@ -1,6 +1,6 @@
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
-apply plugin: 'fs-gradle-publishing'
+apply plugin: 'fsryan-gradle-publishing'
 
 group = 'com.fsryan.tools.jvm'
 version = '0.0.1'
@@ -13,9 +13,4 @@ dependencies {
     compileOnly deps.google.jsr305
 }
 
-fsPublishingConfig {
-    siteUrl ''
-    baseArtifactId project.name
-    groupId project.group
-    versionName project.version
-}
+rootProject.configureFSPublishing(project, 'Testing tools building on top of the JVM')

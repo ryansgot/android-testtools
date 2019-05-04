@@ -11,8 +11,8 @@ import android.support.test.espresso.util.HumanReadables
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import org.hamcrest.Matcher
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import org.junit.Assert.assertEquals
+import java.lang.IllegalArgumentException
 
 /**
  * copied from here: https://gist.github.com/RomainPiel/ec10302a4687171a5e1a
@@ -25,13 +25,14 @@ import org.hamcrest.Matchers.`is`
 class RecyclerItemViewAssertion<A>(
     private val position: Int,
     private val item: A,
-    private val itemViewAssertion: RecyclerViewInteraction.ItemViewAssertion<A>
-) :
-    ViewAssertion {
+    private val itemViewAssertion: RecyclerViewInteraction.ItemViewAssertion<A>): ViewAssertion {
 
-    override fun check(view: View, e: NoMatchingViewException) {
-        val recyclerView = view as RecyclerView
-        val viewHolderForPosition = recyclerView.findViewHolderForLayoutPosition(position)
+    override fun check(view: View?, e: NoMatchingViewException?) {
+        if (view == null) {
+            throw IllegalArgumentException("No view to check")
+        }
+        val recyclerView: RecyclerView = view as RecyclerView
+        val viewHolderForPosition: RecyclerView.ViewHolder? = recyclerView.findViewHolderForLayoutPosition(position)
         if (viewHolderForPosition == null) {
             throw PerformException.Builder()
                 .withActionDescription(toString())
@@ -104,7 +105,7 @@ class RecyclerViewInteraction<A> private constructor(private val viewMatcher: Ma
     }
 
     interface ItemViewAssertion<A> {
-        fun check(item: A, view: View, e: NoMatchingViewException)
+        fun check(item: A, view: View, e: NoMatchingViewException?)
     }
 
     companion object {
@@ -118,13 +119,16 @@ class RecyclerViewInteraction<A> private constructor(private val viewMatcher: Ma
  */
 class RecyclerViewItemCountAssertion(private val expectedCount: Int) : ViewAssertion {
 
-    override fun check(view: View, noViewFoundException: NoMatchingViewException?) {
+    override fun check(view: View?, noViewFoundException: NoMatchingViewException?) {
         if (noViewFoundException != null) {
             throw noViewFoundException
         }
+        if (view == null) {
+            throw IllegalArgumentException("Cannot check null view")
+        }
 
-        val recyclerView = view as RecyclerView
-        val adapter = recyclerView.adapter
-        assertThat<Int>(adapter.itemCount, `is`<Int>(expectedCount))
+        val recyclerView: RecyclerView = view as RecyclerView
+        val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder> = recyclerView.adapter ?: throw IllegalStateException("RecyclerView requires adapter")
+        assertEquals(expectedCount, adapter.itemCount)
     }
 }

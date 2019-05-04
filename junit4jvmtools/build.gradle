@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'fsryan-gradle-publishing'
 
 group = 'com.fsryan.testtools.jvm'
-version = '0.0.1'
+version = '0.0.2'
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_7
 

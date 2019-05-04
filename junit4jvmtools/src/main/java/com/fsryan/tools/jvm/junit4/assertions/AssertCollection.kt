@@ -6,10 +6,12 @@ import org.junit.Assert.fail
 
 object AssertCollection {
 
+    @JvmStatic
     fun <K, V> assertMapEquals(expected: Map<K, V>?, actual: Map<K, V>?) {
         assertMapEquals(null, expected, actual)
     }
 
+    @JvmStatic
     fun <K, V> assertMapEquals(desc: String?, expected: Map<K, V>?, actual: Map<K, V>?) {
         if (handledNullPossiblity(desc, expected, actual)) {
             return
@@ -35,10 +37,12 @@ object AssertCollection {
         fail(failPrepend(desc) + message)
     }
 
+    @JvmStatic
     fun <T> assertSetEquals(expected: Set<T>?, actual: Set<T>?) {
         assertSetEquals(null, expected, actual)
     }
 
+    @JvmStatic
     fun <T> assertSetEquals(desc: String?, expected: Set<T>?, actual: Set<T>?) {
         if (handledNullPossiblity(desc, expected, actual)) {
             return
@@ -60,19 +64,23 @@ object AssertCollection {
         fail(failPrepend(desc) + message)
     }
 
+    @JvmStatic
     fun <T> assertCollectionEquals(expected: Collection<T>?, actual: Collection<T>?) {
         assertCollectionEquals(null, HashSet(expected), HashSet(actual))
     }
 
+    @JvmStatic
     fun <T> assertCollectionEquals(desc: String?, expected: Collection<T>?, actual: Collection<T>?) {
         // TODO: make assertions based upon ordered collections
         assertSetEquals(desc, HashSet(expected), HashSet(actual))
     }
 
+    @JvmStatic
     fun <T> assertListEquals(expected: List<T>, actual: List<T>) {
         assertListEquals(null, expected, actual)
     }
 
+    @JvmStatic
     fun <T> assertListEquals(desc: String?, expected: List<T>, actual: List<T>) {
         if (handledNullPossiblity(desc, expected, actual)) {
             return

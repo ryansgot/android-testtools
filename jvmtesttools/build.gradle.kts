@@ -50,8 +50,6 @@ bintray {
         websiteUrl = "https://github.com/ryansgot/android-testtools/${project.name}"
         issueTrackerUrl = "https://github.com/ryansgot/android-testtools/issues"
         vcsUrl = "https://github.com/ryansgot/android-testtools.git"
-        githubRepo = "ryansgot/android-testtools"
-        githubReleaseNotesFile = "jvmtesttools/README.md"
         publicDownloadNumbers = true
         setLicenses("Apache-2.0")
         setLabels("jvm", "test", "java")

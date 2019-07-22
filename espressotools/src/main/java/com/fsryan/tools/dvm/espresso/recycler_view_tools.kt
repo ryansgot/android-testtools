@@ -1,14 +1,14 @@
 package com.fsryan.tools.dvm.espresso
 
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.NoMatchingViewException
-import android.support.test.espresso.PerformException
-import android.support.test.espresso.ViewAction
-import android.support.test.espresso.ViewAssertion
-import android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import android.support.test.espresso.util.HumanReadables
-import android.support.v7.widget.RecyclerView
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.PerformException
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.util.HumanReadables
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import org.hamcrest.Matcher
 import org.junit.Assert.assertEquals
@@ -31,8 +31,8 @@ class RecyclerItemViewAssertion<A>(
         if (view == null) {
             throw IllegalArgumentException("No view to check")
         }
-        val recyclerView: RecyclerView = view as RecyclerView
-        val viewHolderForPosition: RecyclerView.ViewHolder? = recyclerView.findViewHolderForLayoutPosition(position)
+        val recyclerView: androidx.recyclerview.widget.RecyclerView = view as androidx.recyclerview.widget.RecyclerView
+        val viewHolderForPosition: androidx.recyclerview.widget.RecyclerView.ViewHolder? = recyclerView.findViewHolderForLayoutPosition(position)
         if (viewHolderForPosition == null) {
             throw PerformException.Builder()
                 .withActionDescription(toString())
@@ -95,9 +95,9 @@ class RecyclerViewInteraction<A> private constructor(private val viewMatcher: Ma
             if (!inclusionFilter.include(items[i])) {
                 continue
             }
-            val vi = onView(viewMatcher).perform(scrollToPosition<RecyclerView.ViewHolder>(i + offset))
+            val vi = onView(viewMatcher).perform(scrollToPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(i + offset))
             for (viewAction in onItemViewActions) {
-                vi.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(i + offset, viewAction))
+                vi.perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(i + offset, viewAction))
             }
             vi.check(RecyclerItemViewAssertion(i + offset, items[i], itemViewAssertion))
         }
@@ -127,8 +127,8 @@ class RecyclerViewItemCountAssertion(private val expectedCount: Int) : ViewAsser
             throw IllegalArgumentException("Cannot check null view")
         }
 
-        val recyclerView: RecyclerView = view as RecyclerView
-        val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder> = recyclerView.adapter ?: throw IllegalStateException("RecyclerView requires adapter")
+        val recyclerView: androidx.recyclerview.widget.RecyclerView = view as androidx.recyclerview.widget.RecyclerView
+        val adapter: androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder> = recyclerView.adapter ?: throw IllegalStateException("RecyclerView requires adapter")
         assertEquals(expectedCount, adapter.itemCount)
     }
 }

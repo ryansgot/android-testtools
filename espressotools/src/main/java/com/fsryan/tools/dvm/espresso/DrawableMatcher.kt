@@ -3,8 +3,8 @@ package com.fsryan.tools.dvm.espresso
 import android.content.Context
 import android.graphics.ColorFilter
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.test.InstrumentationRegistry.getTargetContext
+import androidx.annotation.DrawableRes
+import androidx.test.InstrumentationRegistry.getTargetContext
 import android.view.View
 import android.widget.ImageView
 import com.fsryan.tools.dvm.ViewTestUtil

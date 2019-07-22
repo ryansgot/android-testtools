@@ -68,7 +68,7 @@ fsPublishingConfig {
     snapshotRepoUrl = "s3://repo.fsryan.com/snapshot"
     description = "JUnit4 tools for android"
     awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID") ?: ""
-    awsSecretKey = System.getenv("AWS_SECRET_KEY") ?: ""
+    awsSecretKey = System.getenv("AWS_SECRET_ACCESS_KEY") ?: ""
     additionalPublications.add("bintray")
 }
 

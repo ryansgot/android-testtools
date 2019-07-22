@@ -33,7 +33,7 @@ fsPublishingConfig {
     snapshotRepoUrl = "s3://repo.fsryan.com/snapshot"
     description = "Testing tools building on top of the JVM"
     awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID") ?: ""
-    awsSecretKey = System.getenv("AWS_SECRET_KEY") ?: ""
+    awsSecretKey = System.getenv("AWS_SECRET_ACCESS_KEY") ?: ""
     additionalPublications.add("bintray")
 }
 

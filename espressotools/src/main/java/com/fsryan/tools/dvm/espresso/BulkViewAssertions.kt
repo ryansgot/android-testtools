@@ -1,7 +1,7 @@
 package com.fsryan.tools.dvm.espresso
 
-import android.support.test.espresso.ViewInteraction
-import android.support.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.assertion.ViewAssertions
 import android.view.View
 import org.hamcrest.Matcher
 

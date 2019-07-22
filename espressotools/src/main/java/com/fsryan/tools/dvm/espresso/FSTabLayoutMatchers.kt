@@ -1,9 +1,9 @@
 package com.fsryan.tools.dvm.espresso
 
-import android.support.annotation.IdRes
-import android.support.annotation.StringRes
-import android.support.design.widget.TabLayout
-import android.support.test.espresso.matcher.ViewMatchers
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import com.google.android.material.tabs.TabLayout
+import androidx.test.espresso.matcher.ViewMatchers
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher

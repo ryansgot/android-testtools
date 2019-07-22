@@ -3,7 +3,7 @@ package com.fsryan.tools.dvm.junit4
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Environment
-import android.support.test.InstrumentationRegistry
+import androidx.test.InstrumentationRegistry
 import org.junit.rules.ExternalResource
 import org.junit.runner.Description
 import org.junit.runners.model.Statement

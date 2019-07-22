@@ -13,28 +13,14 @@ buildscript {
     ]
     ext.versions = [
             'plugins': [
-                    'android': '3.3.0',
+                    'android': '3.4.2',
                     'androidMavenGradle': '2.1',
-                    'fsGradlePublishing': '0.0.1'
+                    'fsGradlePublishing': '0.0.2'
             ],
             'android': [
                     'compileSdk': 28,
                     'targetSdk': 28,
-                    'minSdk': 17,
-                    'support': [
-                            'lib': '28.0.0',
-                            'multidex': '1.0.2'
-                    ],
-                    'arch': [
-                            'room': '1.1.1',
-                            'components': '1.0.0'
-                    ],
-                    'test': [
-                            'support': [
-                                    'lib': '1.0.2',
-                                    'espresso': '3.0.2'
-                            ]
-                    ]
+                    'minSdk': 17
             ],
             'google': [
                     'jsr305': '3.0.2'
@@ -59,22 +45,22 @@ buildscript {
             'android': [
                     'arch': [
                             'lifecycle': [
-                                    'extensions': "android.arch.lifecycle:extensions:${versions.android.arch.components}"
+                                    'extensions': 'androidx.lifecycle:lifecycle-extensions:2.0.0'
                             ],
                             'testing': [
-                                    'core': "android.arch.core:core-testing:${versions.android.arch.components}"
+                                    'core': 'androidx.arch.core:core-testing:2.0.0'
                             ]
                     ],
                     'support': [
-                            'multidex': "com.android.support:multidex:${versions.android.support.multidex}",
-                            'annotations': "com.android.support:support-annotations:${versions.android.support.lib}",
+                            'multidex': 'androidx.multidex:multidex:2.0.0',
+                            'annotations': 'androidx.annotation:annotation:1.0.0',
                             'test':[
-                                    'monitor': "com.android.support.test:monitor:${versions.android.test.support.lib}",
-                                    'runner': "com.android.support.test:runner:${versions.android.test.support.lib}",
-                                    'rules': "com.android.support.test:rules:${versions.android.test.support.lib}",
+                                    'monitor': 'androidx.test:monitor:1.1.0',
+                                    'runner': 'androidx.test:runner:1.1.0',
+                                    'rules': 'androidx.test:rules:1.1.0',
                                     'espresso': [
-                                            'core': "com.android.support.test.espresso:espresso-core:${versions.android.test.support.espresso}",
-                                            'contrib': "com.android.support.test.espresso:espresso-contrib:${versions.android.test.support.espresso}"
+                                            'core': 'androidx.test.espresso:espresso-core:3.1.0',
+                                            'contrib': 'androidx.test.espresso:espresso-contrib:3.1.0'
                                     ]
                             ]
                     ]

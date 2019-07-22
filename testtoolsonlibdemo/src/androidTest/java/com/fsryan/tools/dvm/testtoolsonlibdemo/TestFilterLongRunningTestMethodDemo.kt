@@ -1,6 +1,6 @@
 package com.fsryan.tools.dvm.testtoolsonlibdemo
 
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import com.fsryan.tools.jvm.junit4.FSLongRunningTest
 import org.junit.Test
 import org.junit.runner.RunWith

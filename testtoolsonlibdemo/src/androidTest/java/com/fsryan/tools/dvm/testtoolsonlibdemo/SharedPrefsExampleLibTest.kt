@@ -1,9 +1,9 @@
 package com.fsryan.tools.dvm.testtoolsonlibdemo
 
 import android.Manifest
-import android.support.test.InstrumentationRegistry
-import android.support.test.rule.GrantPermissionRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.InstrumentationRegistry
+import androidx.test.rule.GrantPermissionRule
+import androidx.test.runner.AndroidJUnit4
 import com.fsryan.tools.dvm.junit4.PrefsTestRule
 import org.junit.Assert.*
 import org.junit.Before

@@ -1,8 +1,8 @@
 package com.fsryan.tools.dvm
 
 import android.content.Context
-import android.support.test.InstrumentationRegistry.getContext
-import android.support.test.InstrumentationRegistry.getTargetContext
+import androidx.test.InstrumentationRegistry.getContext
+import androidx.test.InstrumentationRegistry.getTargetContext
 import java.io.InputStream
 
 object AssetDeserializer {

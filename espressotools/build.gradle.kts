@@ -86,7 +86,7 @@ bintray {
         vcsUrl = "https://github.com/ryansgot/android-testtools.git"
         publicDownloadNumbers = true
         setLicenses("Apache-2.0")
-        setLabels("test", "android", "junit", "junit4")
+        setLabels("test", "android", "espresso", "recyclerview", "drawablematcher")
         version.apply {
             name = project.version.toString()
             released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())

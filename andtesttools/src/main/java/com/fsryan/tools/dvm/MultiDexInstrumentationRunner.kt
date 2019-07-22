@@ -8,9 +8,9 @@ import android.util.Log
 
 class MultiDexInstrumentationRunner : AndroidJUnitRunner() {
     override fun onCreate(arguments: Bundle) {
-        Log.i("RYAN", "running MultiDexInstrumentationRunner")
+        Log.i("andtesttools", "running MultiDexInstrumentationRunner")
         for (k in arguments.keySet()) {
-            Log.i("RYAN", "arg: $k=${arguments.get(k)}")
+            Log.i("andtesttools", "arg: $k=${arguments.get(k)}")
         }
         MultiDex.install(targetContext)
         super.onCreate(arguments)

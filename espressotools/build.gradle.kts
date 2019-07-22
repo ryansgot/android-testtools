@@ -1,3 +1,5 @@
+import java.util.Date
+import java.text.SimpleDateFormat
 import deps.Deps.mainDep
 import deps.Deps.testDep
 import deps.Deps.ver
@@ -9,10 +11,10 @@ plugins {
     id("maven-publish")
     id("android-maven")
     id("fsryan-gradle-publishing")
+    id("com.jfrog.bintray")
 }
 
 group = "com.fsryan.testtools.android"
-version = "0.0.3"
 
 android {
     compileSdkVersion(ver("global", "android", "compileSdk").toInt())
@@ -66,4 +68,36 @@ fsPublishingConfig {
     description = "Testing tools building on top of espresso"
     awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID") ?: ""
     awsSecretKey = System.getenv("AWS_SECRET_KEY") ?: ""
+    additionalPublications.add("bintray")
+}
+
+bintray {
+    user = if (project.hasProperty("bintrayUser")) project.property("bintrayUser").toString() else ""
+    key = if (project.hasProperty("bintrayApiKey")) project.property("bintrayApiKey").toString() else ""
+    setPublications("${project.name}ReleaseToBintray")
+    publish = true
+
+    pkg.apply {
+        repo = "maven"
+        name = project.name
+        userOrg = "fsryan"
+        desc = "Testing tools building on top of espresso"
+        websiteUrl = "https://github.com/ryansgot/android-testtools/${project.name}"
+        issueTrackerUrl = "https://github.com/ryansgot/android-testtools/issues"
+        vcsUrl = "https://github.com/ryansgot/android-testtools.git"
+        githubRepo = "ryansgot/android-testtools"
+        githubReleaseNotesFile = "jvmtesttools/README.md"
+        publicDownloadNumbers = true
+        setLicenses("Apache-2.0")
+        setLabels("test", "android", "junit", "junit4")
+        version.apply {
+            name = project.version.toString()
+            released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())
+            vcsTag = "v${project.version}"
+        }
+    }
+}
+
+project.afterEvaluate {
+    checkNotNull(project.tasks.findByName("release")).dependsOn(checkNotNull(project.tasks.findByName("bintrayUpload")))
 }

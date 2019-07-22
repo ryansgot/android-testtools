@@ -17,6 +17,9 @@ object Deps {
             "android" to mapOf(
                 "lib" to "3.4.2"
             ),
+            "bintray" to mapOf(
+                "publishing" to "1.8.4"
+            ),
             "dcendents" to mapOf(
                 "android-maven" to "2.1"
             ),
@@ -50,6 +53,9 @@ object Deps {
         "plugins" to mapOf(
             "android" to mapOf(
                 "gradle" to "com.android.tools.build:gradle:${ver("plugins", "android", "lib")}"
+            ),
+            "bintray" to mapOf(
+                "publishing" to "com.jfrog.bintray.gradle:gradle-bintray-plugin:${ver("plugins", "bintray", "publishing")}"
             ),
             "dcendents" to mapOf(
                 "android-maven" to "com.github.dcendents:android-maven-gradle-plugin:${ver("plugins", "dcendents", "android-maven")}"

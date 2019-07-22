@@ -3,16 +3,17 @@ package com.fsryan.tools.dvm.espresso
 import android.content.Context
 import android.graphics.ColorFilter
 import android.graphics.drawable.Drawable
-import androidx.annotation.DrawableRes
-import androidx.test.InstrumentationRegistry.getTargetContext
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.fsryan.tools.dvm.ViewTestUtil
+import com.fsryan.tools.dvm.toBitmap
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
 /**
- * A view matcher for making assertions that a view containing a [Drawable]
+ * A view matcher for making Assertions that a view containing a [Drawable]
  * contains the correct drawable. It works best on icons and such.
  *
  * You can expect that the drawables have a color filter applied. The
@@ -31,7 +32,7 @@ import org.hamcrest.TypeSafeMatcher
  */
 class DrawableMatcher(
     @param:DrawableRes @field:DrawableRes private val drawableId: Int,
-    private val expectedDrawableContext: Context = getTargetContext(),
+    private val expectedDrawableContext: Context = getApplicationContext(),
     private val expectedColorFilter: ColorFilter? = null,
     private val extractorFunction: (View) -> Drawable? = { (it as ImageView).drawable }) : TypeSafeMatcher<View>() {
     private var reason: String? = null
@@ -71,8 +72,8 @@ class DrawableMatcher(
         }
         expectedDrawable.colorFilter = expectedColorFilter
 
-        val expected = ViewTestUtil.getBitmap(expectedDrawable)
-        val actual = ViewTestUtil.getBitmap(actualDrawable)
+        val expected = expectedDrawable.toBitmap()
+        val actual = actualDrawable.toBitmap()
         if (!expected.sameAs(actual)) {
             reason = "expected and actual bitmaps do not match"
             return false
@@ -92,7 +93,7 @@ class DrawableMatcher(
 
         @JvmOverloads
         fun ofImageView(@DrawableRes drawableId: Int,
-                        expectedDrawableContext: Context = getTargetContext(),
+                        expectedDrawableContext: Context = getApplicationContext(),
                         expectedColorFilter: ColorFilter? = null): DrawableMatcher {
             return of(
                 drawableId,
@@ -103,7 +104,7 @@ class DrawableMatcher(
 
         @JvmOverloads
         fun of(@DrawableRes drawableId: Int,
-               expectedDrawableContext: Context = getTargetContext(),
+               expectedDrawableContext: Context = getApplicationContext(),
                expectedColorFilter: ColorFilter? = null,
                extractor: Extractor = Extractor.FOR_IMAGE_VIEW
         ): DrawableMatcher {

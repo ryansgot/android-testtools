@@ -17,13 +17,12 @@ buildscript {
                 val awsIm by registering(AwsImAuthentication::class)
             }
         }
-        mavenLocal()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:3.4.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.41")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
-        classpath("com.fsryan.gradle:fsryan-gradle-publishing:0.0.3-SNAPSHOT")
+        classpath("com.fsryan.gradle:fsryan-gradle-publishing:0.0.3")
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
     }
 }

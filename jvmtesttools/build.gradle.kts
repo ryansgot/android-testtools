@@ -41,12 +41,11 @@ bintray {
     user = if (project.hasProperty("bintrayUser")) project.property("bintrayUser").toString() else ""
     key = if (project.hasProperty("bintrayApiKey")) project.property("bintrayApiKey").toString() else ""
     setPublications("mavenToBintray")
-    publish = true
+    publish = false
 
     pkg.apply {
         repo = "maven"
         name = project.name
-        userOrg = "fsryan"
         desc = "Testing tools building on top of the JVM"
         websiteUrl = "https://github.com/ryansgot/android-testtools/${project.name}"
         issueTrackerUrl = "https://github.com/ryansgot/android-testtools/issues"

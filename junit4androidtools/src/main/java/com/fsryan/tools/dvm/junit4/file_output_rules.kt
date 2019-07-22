@@ -63,7 +63,7 @@ class DbTestRule(private val dbName: String,
                  private val deleteDbBeforeUse: Boolean = false,
                  beforeFunction: () -> Unit = {},
                  afterFunction: () -> Unit = {},
-                 baseDirName: String = "bptest") : BaseFileOutputRule(baseDirName, beforeFunction, afterFunction) {
+                 baseDirName: String = "fsryantest") : BaseFileOutputRule(baseDirName, beforeFunction, afterFunction) {
     private lateinit var outPath: String
 
     override fun apply(base: Statement, description: Description): Statement {
@@ -141,7 +141,7 @@ class PrefsTestRule(private val prefName: String,
                     private val context: Context = InstrumentationRegistry.getTargetContext(),
                     beforeFunction: () -> Unit = {},
                     afterFunction: () -> Unit = {},
-                    baseDirName: String = "bptest") : BaseFileOutputRule(baseDirName, {}, afterFunction) {
+                    baseDirName: String = "fsryantest") : BaseFileOutputRule(baseDirName, {}, afterFunction) {
     private lateinit var outPath: String
 
     override fun apply(base: Statement, description: Description): Statement {
@@ -173,7 +173,7 @@ class PrefsTestRule(private val prefName: String,
  * [beforeFunction] and [afterFunction] before and after test execution
  * respectively
  */
-abstract class BaseFileOutputRule(baseDirName: String = "bptest",
+abstract class BaseFileOutputRule(baseDirName: String = "fsryantest",
                                        private val beforeFunction: () -> Unit = {},
                                        private val afterFunction: () -> Unit = {}) : ExternalResource() {
     protected val outDir = File(Environment.getExternalStorageDirectory(), baseDirName)

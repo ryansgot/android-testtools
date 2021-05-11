@@ -10,8 +10,8 @@ plugins {
     id("kotlin-android")
     id("maven-publish")
     id("android-maven")
+    id("signing")
     id("fsryan-gradle-publishing")
-    id("com.jfrog.bintray")
 }
 
 group = "com.fsryan.testtools.android"
@@ -54,7 +54,6 @@ dependencies {
     implementation(testDep(producer = "androidx", name = "espresso-core"))
     implementation(testDep(producer = "androidx", name = "espresso-contrib"))
 }
-
 fsPublishingConfig {
     developerName = "Ryan Scott"
     developerId = "fsryan"
@@ -63,38 +62,39 @@ fsPublishingConfig {
     baseArtifactId = project.name
     groupId = project.group.toString()
     versionName = project.version.toString()
-    releaseRepoUrl = "s3://repo.fsryan.com/release"
-    snapshotRepoUrl = "s3://repo.fsryan.com/snapshot"
-    description = "Testing tools building on top of espresso"
-    awsAccessKeyId = System.getenv("AWS_ACCESS_KEY_ID") ?: ""
-    awsSecretKey = System.getenv("AWS_SECRET_ACCESS_KEY") ?: ""
-    additionalPublications.add("bintray")
+
+    licenseName = "Apache License, Version 2.0"
+    licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+    licenseDistribution = "repo"
+
+//    releaseRepoUrl = "s3://repo.fsryan.com/release"
+//    snapshotRepoUrl = "s3://repo.fsryan.com/snapshot"
+//    awsAccessKeyId = if (project.hasProperty("awsMavenAccessKey")) project.property("awsMavenAccessKey").toString() else System.getenv()["AWS_ACCES_KEY_ID"]!!
+//    awsSecretKey = if (project.hasProperty("awsMavenSecretKey")) project.property("awsMavenSecretKey").toString() else System.getenv()["AWS_SECRET_KEY"]!!
+
+    releaseRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+    releaseBasicUser = project.findProperty("com.fsryan.ossrh.release.username")?.toString().orEmpty()
+    releaseBasicPassword = project.findProperty("com.fsryan.ossrh.release.password")?.toString().orEmpty()
+    snapshotRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    snapshotBasicUser = project.findProperty("com.fsryan.ossrh.snapshot.username")?.toString().orEmpty()
+    snapshotBasicPassword = project.findProperty("com.fsryan.ossrh.snapshot.password")?.toString().orEmpty()
+    useBasicCredentials = true
+    useBasicCredentials = true
+    description = "Some basic test tools for android focusing on espresso"
 }
 
-bintray {
-    user = if (project.hasProperty("bintrayUser")) project.property("bintrayUser").toString() else ""
-    key = if (project.hasProperty("bintrayApiKey")) project.property("bintrayApiKey").toString() else ""
-    setPublications("${project.name}ReleaseToBintray")
-    publish = false
-
-    pkg.apply {
-        repo = "maven"
-        name = project.name
-        desc = "Testing tools building on top of espresso"
-        websiteUrl = "https://github.com/ryansgot/android-testtools/${project.name}"
-        issueTrackerUrl = "https://github.com/ryansgot/android-testtools/issues"
-        vcsUrl = "https://github.com/ryansgot/android-testtools.git"
-        publicDownloadNumbers = true
-        setLicenses("Apache-2.0")
-        setLabels("test", "android", "espresso", "recyclerview", "drawablematcher")
-        version.apply {
-            name = project.version.toString()
-            released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())
-            vcsTag = "v${project.version}"
+signing {
+    if (project.hasProperty("signing.keyId")) {
+        if (project.hasProperty("signing.password")) {
+            if (project.hasProperty("signing.secretKeyRingFile")) {
+                sign(publishing.publications)
+            } else {
+                println("Missing signing.secretKeyRingFile: cannot sign ${project.name}")
+            }
+        } else {
+            println("Missing signing.password: cannot sign ${project.name}")
         }
+    } else {
+        println("Missing signing.keyId: cannot sign ${project.name}")
     }
-}
-
-project.afterEvaluate {
-    checkNotNull(project.tasks.findByName("release")).dependsOn(checkNotNull(project.tasks.findByName("bintrayUpload")))
 }
